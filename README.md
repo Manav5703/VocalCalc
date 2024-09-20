@@ -34,3 +34,25 @@ Make sure you have the following installed:
    ```bash
    git clone https://github.com/Manav5703/VocalCalc.git
    cd VocalCalc
+2. Install the required libraries:
+   ```bash
+   pip install SpeechRecognition pyttsx3
+3. Run the application:
+   ```bash
+   python voice_calculator.py
+
+## Usage
+- Upon running the app, you can give voice commands like the ones mentioned in the examples.
+- The calculator will display the result and provide audio feedback.
+
+## Future Improvements
+- Extend support for more complex operations (e.g., exponentiation, square root).
+- Improve voice recognition accuracy.
+- Add support for multiple languages.
+
+## Contributors
+- Manav Patel ([GitHub Profile](https://github.com/Manav5703))
+- Mohammad Shajjad Hossen
+
+## License
+This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
