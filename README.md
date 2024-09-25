@@ -51,7 +51,7 @@ Make sure you have the following installed:
 - Add support for multiple languages.
 
 ## Contributors
-- Manav Patel ([GitHub Profile](https://github.com/Manav5703))
+- Manav Patel 
 - Mohammad Shajjad Hossen
 
 ## License
