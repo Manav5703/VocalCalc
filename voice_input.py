@@ -10,7 +10,7 @@ def listen_for_command():
         try:
             audio = recognizer.listen(source)
             print("Audio captured, processing...")
-            command = recognizer.recognize_ibm(audio)
+            command = recognizer.recognize_google(audio)
             print(f"You said: {command}")
             return command
         except sr.UnknownValueError:
