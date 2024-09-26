@@ -5,13 +5,12 @@ def listen_for_command():
     recognizer = sr.Recognizer()
     with sr.Microphone() as source:
         print("Adjusting for ambient noise...")
-        recognizer.adjust_for_ambient_noise(source, duration=2)
+        recognizer.adjust_for_ambient_noise(source, duration=1)
         print("Listening for a command...")
         try:
-            audio = recognizer.listen(source, timeout=5)
+            audio = recognizer.listen(source)
             print("Audio captured, processing...")
-            # Use pocketsphinx for recognition
-            command = recognizer.recognize_sphinx(audio)
+            command = recognizer.recognize_google(audio)
             print(f"You said: {command}")
             return command
         except sr.UnknownValueError:
@@ -19,9 +18,6 @@ def listen_for_command():
             return None
         except sr.RequestError as e:
             print(f"Could not request results; {e}")
-            return None
-        except Exception as e:
-            print(f"An unexpected error occurred: {e}")
             return None
 
 

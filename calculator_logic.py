@@ -37,6 +37,6 @@ def parse_command(command):
     elif "divide" in tokens:
         x = int(tokens[tokens.index("divide") - 1])
         y = int(tokens[tokens.index("divide") + 1])
-        return divide(x, y)
+        return divide(y, x)
     else:
         return "Invalid command"

@@ -15,15 +15,18 @@ def calculate():
     """Capture voice command, parse it, and provide results."""
     command = listen_for_command()
     if command:
+        # Display the spoken command in the result label
+        result_label.config(text=f"You said: {command}")
+        
         result = parse_command(command)
         if isinstance(result, str):
             # Speak the result if it's a string (like an error message)
             speak(result)
-            result_label.config(text=result)  # Use the result_label defined below
+            result_label.config(text=f"You said: {command}\n{result}")  # Show command and error message
         else:
             # Speak and display the numeric result
             speak(f"The result is {result}")
-            result_label.config(text=str(result))
+            result_label.config(text=f"You said: {command}\nResult: {result}")  # Show command and result
 
 if __name__ == "__main__":
     # Create the GUI and pass the calculate function as a callback
