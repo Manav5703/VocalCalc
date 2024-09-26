@@ -29,7 +29,7 @@ def parse_command(command):
     elif "subtract" in tokens:
         x = int(tokens[tokens.index("subtract") + 1])
         y = int(tokens[tokens.index("subtract") - 1])
-        return subtract(x, y)
+        return subtract(y, x)
     elif "multiply" in tokens:
         x = int(tokens[tokens.index("multiply") - 1])
         y = int(tokens[tokens.index("multiply") + 1])

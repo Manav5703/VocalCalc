@@ -10,7 +10,7 @@ def create_gui(calculate_callback):
     root.configure(bg="#f0f0f0")  # Set a light background color
 
     # Create a frame for the content
-    frame = ttk.Frame(root, padding=20)
+    frame = ttk.Frame(root, padding=5)
     frame.pack(expand=True, fill=tk.BOTH)
 
     # Create a label to display results
