@@ -20,7 +20,7 @@ VocalCalc is a Voice-Activated Calculator that allows users to perform basic ari
 - **Python**: Main programming language.
 - **SpeechRecognition**: For voice input processing.
 - **pyttsx3**: For text-to-speech feedback.
-- **Tkinter**: For the graphical user interface.
+- **PyQt5**: For the graphical user interface.
 
 ## Installation
 
