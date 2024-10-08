@@ -4,8 +4,8 @@ def listen_for_command():
     """Listen for a voice command and return it as a string."""
     recognizer = sr.Recognizer()
     with sr.Microphone() as source:
-        print("Adjusting for ambient noise...")
         recognizer.adjust_for_ambient_noise(source, duration=1)
+        print("Adjusting for ambient noise...")
         print("Listening for a command...")
         try:
             audio = recognizer.listen(source)

@@ -1,7 +1,9 @@
+import threading
 from voice_input import listen_for_command
 from calculator_logic import parse_command
 from ui import create_gui
 import pyttsx3
+import sys
 
 # Initialize the text-to-speech engine
 engine = pyttsx3.init()
@@ -13,22 +15,33 @@ def speak(text):
 
 def calculate():
     """Capture voice command, parse it, and provide results."""
+    window.update_result("Listening for command...")
+    
+    # Start a new thread to listen for commands to avoid blocking the GUI
+    thread = threading.Thread(target=process_voice_command)
+    thread.start()
+
+def process_voice_command():
+    """Process the voice command asynchronously."""
     command = listen_for_command()
+    
     if command:
-        # Display the spoken command in the result label
-        result_label.config(text=f"You said: {command}")
-        
+        window.update_result(f"You said: {command}")
         result = parse_command(command)
         if isinstance(result, str):
-            # Speak the result if it's a string (like an error message)
+            # Speak and show error message
             speak(result)
-            result_label.config(text=f"You said: {command}\n{result}")  # Show command and error message
+            window.update_result(f"You said: {command}\n{result}")
         else:
-            # Speak and display the numeric result
+            # Speak and show result
             speak(f"The result is {result}")
-            result_label.config(text=f"You said: {command}\nResult: {result}")  # Show command and result
+            window.update_result(f"You said: {command}\nResult: {result}")
+    else:
+        # Handle case where no command was captured
+        window.update_result("No command heard. Please try again.")
+        speak("I didn't hear a command. Please try again.")
 
 if __name__ == "__main__":
     # Create the GUI and pass the calculate function as a callback
-    gui, result_label = create_gui(calculate)
-    gui.mainloop()
+    app, window = create_gui(calculate)
+    sys.exit(app.exec_())
