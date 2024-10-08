@@ -8,7 +8,7 @@ VocalCalc is a Voice-Activated Calculator that allows users to perform basic ari
   - Handles error cases such as division by zero and invalid commands.
 - Voice recognition using Python’s `SpeechRecognition` library.
 - Provides audio feedback using the `pyttsx3` library.
-- Simple graphical user interface built with `Tkinter`.
+- Simple graphical user interface built with `PyQt5`.
 
 ## Example Commands
 - "What is 5 plus 3?"
