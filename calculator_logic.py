@@ -38,26 +38,26 @@ def parse_command(command):
 
     # Look for addition commands
     if "add" in filtered_tokens or "plus" in filtered_tokens:
-        x = int(filtered_tokens[filtered_tokens.index("plus") - 1] if "plus" in filtered_tokens else filtered_tokens[filtered_tokens.index("add") - 1])
-        y = int(filtered_tokens[filtered_tokens.index("plus") + 1] if "plus" in filtered_tokens else filtered_tokens[filtered_tokens.index("add") + 1])
+        x = float(filtered_tokens[filtered_tokens.index("plus") - 1] if "plus" in filtered_tokens else filtered_tokens[filtered_tokens.index("add") - 1])
+        y = float(filtered_tokens[filtered_tokens.index("plus") + 1] if "plus" in filtered_tokens else filtered_tokens[filtered_tokens.index("add") + 1])
         return add(x, y)
 
     # Look for subtraction commands
     elif "subtract" in filtered_tokens or "minus" in filtered_tokens:
-        x = int(filtered_tokens[filtered_tokens.index("minus") - 1] if "minus" in filtered_tokens else filtered_tokens[filtered_tokens.index("subtract") + 1])
-        y = int(filtered_tokens[filtered_tokens.index("minus") + 1] if "minus" in filtered_tokens else filtered_tokens[filtered_tokens.index("subtract") - 1])
+        x = float(filtered_tokens[filtered_tokens.index("minus") - 1] if "minus" in filtered_tokens else filtered_tokens[filtered_tokens.index("subtract") + 1])
+        y = float(filtered_tokens[filtered_tokens.index("minus") + 1] if "minus" in filtered_tokens else filtered_tokens[filtered_tokens.index("subtract") - 1])
         return subtract(x, y)
 
     # Look for multiplication commands
     elif "multiply" in filtered_tokens or "times" in filtered_tokens:
-        x = int(filtered_tokens[filtered_tokens.index("times") - 1] if "times" in filtered_tokens else filtered_tokens[filtered_tokens.index("multiply") - 1])
-        y = int(filtered_tokens[filtered_tokens.index("times") + 1] if "times" in filtered_tokens else filtered_tokens[filtered_tokens.index("multiply") + 1])
+        x = float(filtered_tokens[filtered_tokens.index("times") - 1] if "times" in filtered_tokens else filtered_tokens[filtered_tokens.index("multiply") - 1])
+        y = float(filtered_tokens[filtered_tokens.index("times") + 1] if "times" in filtered_tokens else filtered_tokens[filtered_tokens.index("multiply") + 1])
         return multiply(x, y)
 
     # Look for division commands, ensuring "by" is treated as division
     elif "divide" in filtered_tokens or "by" in filtered_tokens:
-        x = int(filtered_tokens[filtered_tokens.index("by") - 1] if "by" in filtered_tokens else filtered_tokens[filtered_tokens.index("divide") - 1])
-        y = int(filtered_tokens[filtered_tokens.index("by") + 1] if "by" in filtered_tokens else filtered_tokens[filtered_tokens.index("divide") + 1])
+        x = float(filtered_tokens[filtered_tokens.index("by") - 1] if "by" in filtered_tokens else filtered_tokens[filtered_tokens.index("divide") - 1])
+        y = float(filtered_tokens[filtered_tokens.index("by") + 1] if "by" in filtered_tokens else filtered_tokens[filtered_tokens.index("divide") + 1])
         return divide(x, y)
 
     else:
