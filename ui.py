@@ -1,51 +1,62 @@
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QPushButton, QVBoxLayout, QWidget
-from PyQt5.QtCore import Qt
-import sys
+import tkinter as tk
+from tkinter import ttk
+from PIL import Image, ImageTk
 
-class CalculatorGUI(QMainWindow):
-    def __init__(self, calculate_callback):
-        super().__init__()
+class CalculatorGUI:
+    def __init__(self, root, calculate_callback):
+        self.root = root
+        self.root.title("Voice-Activated Calculator")
+        self.root.geometry("500x400")  # Larger window size
 
-        # Set up the window
-        self.setWindowTitle("Voice-Activated Calculator")
-        self.setGeometry(100, 100, 400, 300)  # Window size
+        # Dark theme setup
+        self.root.configure(bg="#2e2e2e")  # Dark gray background
 
-        # Create the central widget and layout
-        central_widget = QWidget(self)
-        self.setCentralWidget(central_widget)
-        layout = QVBoxLayout(central_widget)
+        # Create a canvas for the result display
+        self.result_canvas = tk.Canvas(root, width=450, height=100, bg="#4e4e4e", highlightthickness=0)
+        self.result_canvas.pack(pady=20)
 
-        # Create a label to display results
-        self.result_label = QLabel("Result", self)
-        self.result_label.setAlignment(Qt.AlignCenter)
-        self.result_label.setStyleSheet("font-size: 18px;")  # Simple font size for the label
-        layout.addWidget(self.result_label)
+        # Create the result label on the canvas
+        self.result_label = ttk.Label(
+            self.result_canvas, text="Result", anchor="center", font=("Helvetica", 24), background="#4e4e4e", foreground="#ffffff"
+        )
+        self.result_label.place(relx=0.5, rely=0.5, anchor="center")
 
-        # Create the 'Speak Command' button
-        self.speak_button = QPushButton("Speak Command", self)
-        self.speak_button.setStyleSheet("font-size: 14px; padding: 8px;")  # Simple button style
-        self.speak_button.clicked.connect(calculate_callback)
-        layout.addWidget(self.speak_button)
+        # Load and create the mic icon button
+        mic_image = Image.open("mic_icon.png")
+        mic_image = mic_image.resize((50, 50), Image.ANTIALIAS)  # Resize image to fit button
+        mic_photo = ImageTk.PhotoImage(mic_image)
 
-        # Create an info label
-        self.info_label = QLabel("Press the button and speak your command.", self)
-        self.info_label.setAlignment(Qt.AlignCenter)
-        self.info_label.setStyleSheet("font-size: 12px;")  # Simple, minimal font for the info label
-        layout.addWidget(self.info_label)
+        self.mic_button = tk.Button(
+            root, image=mic_photo, command=calculate_callback, bg="#3b3b3b", activebackground="#505050", bd=0
+        )
+        self.mic_button.image = mic_photo  # Keep a reference to avoid garbage collection
+        self.mic_button.pack(pady=20, ipadx=10, ipady=10)
 
-        # Create the 'Quit' button
-        self.quit_button = QPushButton("Quit", self)
-        self.quit_button.setStyleSheet("font-size: 14px; padding: 8px;")  # Simple button style
-        self.quit_button.clicked.connect(self.close)
-        layout.addWidget(self.quit_button)
+        # Info label
+        self.info_label = ttk.Label(
+            root, text="Press the mic and speak your command.", anchor="center", font=("Helvetica", 12), background="#2e2e2e", foreground="#ffffff"
+        )
+        self.info_label.pack(pady=10)
+
+        # Apply custom styles for buttons
+        style = ttk.Style()
+        style.configure("TButton", font=("Helvetica", 14), padding=10)
 
     def update_result(self, text):
-        """Update the result label."""
-        self.result_label.setText(text)
+        """Update the result label with calculation result."""
+        self.result_label.config(text=text)
 
 def create_gui(calculate_callback):
-    """Create and return the PyQt5 GUI application."""
-    app = QApplication(sys.argv)
-    window = CalculatorGUI(calculate_callback)
-    window.show()
-    return app, window
+    """Create and return the Tkinter GUI application."""
+    root = tk.Tk()
+    gui = CalculatorGUI(root, calculate_callback)
+    return root, gui
+
+# Example usage
+if __name__ == "__main__":
+    def dummy_calculate():
+        # Placeholder for the calculation function
+        print("Calculating...")
+
+    app, gui = create_gui(dummy_calculate)
+    app.mainloop()
