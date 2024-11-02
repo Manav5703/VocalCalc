@@ -2,117 +2,164 @@ import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk
 
+class ToolTip:
+    """Tooltip class to display messages on hover."""
+    def __init__(self, widget, text):
+        self.widget = widget
+        self.text = text
+        self.tooltip_window = None
+
+        self.widget.bind("<Enter>", self.show_tooltip)
+        self.widget.bind("<Leave>", self.hide_tooltip)
+
+    def show_tooltip(self, event=None):
+        """Display the tooltip."""
+        if self.tooltip_window is not None:
+            return  # Tooltip already visible
+
+        x = self.widget.winfo_rootx() + 20
+        y = self.widget.winfo_rooty() + 20
+
+        self.tooltip_window = tk.Toplevel(self.widget)
+        self.tooltip_window.wm_overrideredirect(True)  # Remove window decorations
+        self.tooltip_window.wm_geometry(f"+{x}+{y}")
+
+        label = tk.Label(self.tooltip_window, text=self.text, background="lightyellow", borderwidth=1, relief="solid")
+        label.pack()
+
+    def hide_tooltip(self, event=None):
+        """Hide the tooltip."""
+        if self.tooltip_window:
+            self.tooltip_window.destroy()
+            self.tooltip_window = None
+
+
 class CalculatorGUI:
     def __init__(self, root, calculate_callback):
         self.root = root
         self.root.title("Voice-Activated Calculator")
-        self.root.geometry("500x400")  # Larger window size
+        self.root.geometry("600x500")  # Adjusted size for the whole window
 
         # Dark theme setup
-        self.root.configure(bg="#2e2e2e")  # Dark gray background
+        self.root.configure(bg="#2e2e2e")
 
-        # Top bar frame
+        # Top bar frame for "I", "Formulas", and "History" buttons
         top_frame = tk.Frame(root, bg="#2e2e2e")
-        top_frame.pack(fill="x", pady=5)
+        top_frame.pack(fill="x", pady=5, anchor="w")
 
-        # "I" button for instructions
+        # Load images for buttons
+        self.formulas_image = ImageTk.PhotoImage(Image.open("formula.png").resize((24, 24)))
+        self.instructions_image = ImageTk.PhotoImage(Image.open("info.png").resize((24, 24)))
+        self.history_image = ImageTk.PhotoImage(Image.open("history.png").resize((24, 24)))
+
+        # Buttons for Instructions, Formulas, and History with icons
+        formulas_button = tk.Button(
+            top_frame, image=self.formulas_image, command=lambda: self.toggle_info("formulas"),
+            bg="#2e2e2e", fg="#ffffff", activebackground="#505050", bd=0
+        )
+        formulas_button.pack(side="left", padx=10)
+        ToolTip(formulas_button, "View mathematical formulas")
+
         instruction_button = tk.Button(
-            top_frame, text="I", command=self.show_instructions, font=("Helvetica", 12),
+            top_frame, image=self.instructions_image, command=lambda: self.toggle_info("instructions"),
             bg="#2e2e2e", fg="#ffffff", activebackground="#505050", bd=0
         )
         instruction_button.pack(side="right", padx=10)
+        ToolTip(instruction_button, "View instructions for using the calculator")
 
-        # "Formulas" button to display mathematical formulas
-        formulas_button = tk.Button(
-            top_frame, text="Formulas", command=self.show_formulas, font=("Helvetica", 12),
+        # History button
+        history_button = tk.Button(
+            top_frame, image=self.history_image, command=lambda: self.toggle_info("history"),
             bg="#2e2e2e", fg="#ffffff", activebackground="#505050", bd=0
         )
-        formulas_button.pack(side="right", padx=10)
+        history_button.pack(side="left", padx=10)
+        ToolTip(history_button, "View calculation history")
 
-        # Create a canvas for the result display
-        self.result_canvas = tk.Canvas(root, width=450, height=100, bg="#4e4e4e", highlightthickness=0)
-        self.result_canvas.pack(pady=20)
+        # Result display area
+        self.result_canvas = tk.Canvas(root, bg="#4e4e4e", highlightthickness=0)
+        self.result_canvas.pack(pady=20, fill=tk.X)  # Allow it to fill horizontally
 
-        # Create the result label on the canvas
         self.result_label = ttk.Label(
             self.result_canvas, text="Result", anchor="center", font=("Helvetica", 24), background="#4e4e4e", foreground="#ffffff"
         )
-        self.result_label.place(relx=0.5, rely=0.5, anchor="center")
+        self.result_label.pack(expand=True)  # Allow label to expand within canvas
 
-        # Load and create the mic icon button
+        # Mic icon button
         mic_image = Image.open("mic_icon.png")
-        mic_image = mic_image.resize((50, 50), Image.ANTIALIAS)  # Resize image to fit button
+        mic_image = mic_image.resize((50, 50), Image.ANTIALIAS)
         mic_photo = ImageTk.PhotoImage(mic_image)
 
         self.mic_button = tk.Button(
-            root, image=mic_photo, command=calculate_callback, bg="#3b3b3b", activebackground="#505050", bd=0
+            root, image=mic_photo, command=calculate_callback, bg="#2e2e2e", activebackground="#505050", bd=0
         )
-        self.mic_button.image = mic_photo  # Keep a reference to avoid garbage collection
+        self.mic_button.image = mic_photo
         self.mic_button.pack(pady=20, ipadx=10, ipady=10)
 
-        # Info label
-        self.info_label = ttk.Label(
-            root, text="Press the mic and speak your command.", anchor="center", font=("Helvetica", 12), background="#2e2e2e", foreground="#ffffff"
-        )
-        self.info_label.pack(pady=10)
+        # Frame to hold the content display
+        self.content_frame = tk.Frame(root, bg="#4e4e4e")
+        self.content_frame.pack(fill="both", expand=True, padx=20, pady=(0, 10))
 
-        # Apply custom styles for buttons
-        style = ttk.Style()
-        style.configure("TButton", font=("Helvetica", 14), padding=10)
+        # Initialize history list
+        self.history = []
 
     def update_result(self, text):
-        """Update the result label with calculation result."""
+        """Update the result label with calculation result and adjust size."""
         self.result_label.config(text=text)
+        self.adjust_result_box_size(text)
 
-    def show_instructions(self):
-        """Display instructions in a new window similar to the formulas window."""
-        instructions = [
-            "1. Click the microphone button and speak a calculation.",
-            "2. Supported commands include addition, subtraction, multiplication, and division.",
-            "3. Example: 'What is 5 plus 3' or 'Calculate 12 divided by 4'."
-        ]
+    def adjust_result_box_size(self, text):
+        """Adjust the size of the result box based on the text length."""
+        # Calculate width based on the length of the text
+        lines = text.splitlines()
+        max_length = max(len(line) for line in lines)  # Get the longest line length
+        text_width = max_length * 12  # Approximate width (adjust multiplier as needed)
 
-        instructions_window = tk.Toplevel(self.root)
-        instructions_window.title("Instructions")
-        instructions_window.geometry("400x300")
-        instructions_window.configure(bg="#2e2e2e")
+        # Update the canvas width to fit the text
+        self.result_canvas.config(width=max(450, text_width + 20))  # Add padding
 
-        instructions_label = tk.Label(instructions_window, text="Instructions", font=("Helvetica", 16, "bold"), bg="#2e2e2e", fg="#ffffff")
-        instructions_label.pack(pady=10)
+    def toggle_info(self, content_type):
+        """Show or hide the info panel with the given content type (instructions, formulas, or history)."""
+        # Clear the content frame
+        for widget in self.content_frame.winfo_children():
+            widget.destroy()
 
-        instructions_text = tk.Text(instructions_window, wrap="word", bg="#4e4e4e", fg="#ffffff", font=("Helvetica", 12), bd=0)
-        instructions_text.pack(expand=True, fill="both", padx=20, pady=10)
+        if content_type == "instructions":
+            instructions = [
+                "1. Click the microphone button and speak a calculation.",
+                "2. Supported commands include addition, subtraction, multiplication, and division.",
+                "3. Example: 'What is 5 plus 3' or 'Calculate 12 divided by 4'."
+            ]
+            self.create_label("Instructions", instructions)
 
-        # Insert instructions into the Text widget
-        for line in instructions:
-            instructions_text.insert("end", f"{line}\n\n")
-        instructions_text.config(state="disabled")  # Make the text box read-only
+        elif content_type == "formulas":
+            formulas = [
+                "Area of a circle: A = πr²",
+                "Pythagorean theorem: a² + b² = c²",
+                "Quadratic formula: x = (-b ± √(b² - 4ac)) / 2a",
+                "Slope formula: m = (y₂ - y₁) / (x₂ - x₁)",
+                "Simple interest: SI = P * R * T / 100",
+            ]
+            self.create_label("Mathematical Formulas", formulas)
 
-    def show_formulas(self):
-        """Display a list of mathematical formulas in a new window."""
-        formulas = [
-            "Area of a circle: A = πr²",
-            "Pythagorean theorem: a² + b² = c²",
-            "Quadratic formula: x = (-b ± √(b² - 4ac)) / 2a",
-            "Slope formula: m = (y₂ - y₁) / (x₂ - x₁)",
-            "Simple interest: SI = P * R * T / 100",
-        ]
+        elif content_type == "history":
+            if self.history:
+                self.create_label("Calculation History", self.history)
+            else:
+                self.create_label("Calculation History", ["No history available."])
 
-        formulas_window = tk.Toplevel(self.root)
-        formulas_window.title("Mathematical Formulas")
-        formulas_window.geometry("400x300")
-        formulas_window.configure(bg="#2e2e2e")
+    def create_label(self, title, items):
+        """Create a label with a title and a list of items formatted nicely."""
+        title_label = ttk.Label(self.content_frame, text=title, font=("Helvetica", 18, "bold"), background="#4e4e4e", foreground="#ffffff")
+        title_label.pack(anchor="w", padx=10, pady=(10, 0))
 
-        formula_label = tk.Label(formulas_window, text="Mathematical Formulas", font=("Helvetica", 16, "bold"), bg="#2e2e2e", fg="#ffffff")
-        formula_label.pack(pady=10)
+        for item in items:
+            item_label = ttk.Label(self.content_frame, text=f"• {item}", font=("Helvetica", 12), background="#4e4e4e", foreground="#ffffff")
+            item_label.pack(anchor="w", padx=20)
 
-        formula_text = tk.Text(formulas_window, wrap="word", bg="#4e4e4e", fg="#ffffff", font=("Helvetica", 12), bd=0)
-        formula_text.pack(expand=True, fill="both", padx=20, pady=10)
-
-        # Insert formulas into the Text widget
-        for formula in formulas:
-            formula_text.insert("end", f"{formula}\n\n")
-        formula_text.config(state="disabled")  # Make the text box read-only
+    def add_to_history(self, entry):
+        """Add an entry to the calculation history and update the display."""
+        self.history.append(entry)
+        self.toggle_info("history")  # Update the display to show the latest history
 
 def create_gui(calculate_callback):
     """Create and return the Tkinter GUI application."""

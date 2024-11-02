@@ -28,15 +28,26 @@ def process_voice_command():
     if command:
         # Update the result with the spoken command
         window.update_result(f"You said: {command}")
-        result = parse_command(command)
+        result, history_entry = parse_command(command)
+
         if isinstance(result, str):
             # Speak and show error message
             speak(result)
             window.update_result(f"You said: {command}\n{result}")
         else:
+            # Format result for main result box based on operation
+            if 'divide' in command or 'by' in command:
+                formatted_result = f"{result:.2f}"  # Show two decimal points for division
+            else:
+                formatted_result = str(int(result))  # Show as integer for other operations
+
             # Speak and show result
-            speak(f"The result is {result}")
-            window.update_result(f"You said: {command}\nResult: {result}")
+            speak(f"The result is {formatted_result}")
+            window.update_result(f"You said: {command}\nResult: {formatted_result}")
+
+            # Add to history
+            window.add_to_history(history_entry)  # Add to history
+
     else:
         # Handle case where no command was captured
         window.update_result("No command heard. Please try again.")
