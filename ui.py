@@ -51,6 +51,8 @@ class CalculatorGUI:
         self.formulas_image = ImageTk.PhotoImage(Image.open("formula.png").resize((24, 24)))
         self.instructions_image = ImageTk.PhotoImage(Image.open("info.png").resize((24, 24)))
         self.history_image = ImageTk.PhotoImage(Image.open("history.png").resize((24, 24)))
+        self.scientific_image = ImageTk.PhotoImage(Image.open("science.png").resize((24, 24)))
+        
 
         # Buttons for Instructions, Formulas, and History with icons
         formulas_button = tk.Button(
@@ -74,6 +76,13 @@ class CalculatorGUI:
         )
         history_button.pack(side="left", padx=10)
         ToolTip(history_button, "View calculation history")
+        
+        scientific_button = tk.Button(
+            top_frame, image=self.scientific_image, command=lambda: self.toggle_info("scientific"),
+            bg="#2e2e2e", fg="#ffffff", activebackground="#505050", bd=0
+        )
+        scientific_button.pack(side="left", padx=10)
+        ToolTip(scientific_button, "View scientific functions")
 
         # Result display area
         self.result_canvas = tk.Canvas(root, bg="#4e4e4e", highlightthickness=0)
@@ -126,7 +135,7 @@ class CalculatorGUI:
         if content_type == "instructions":
             instructions = [
                 "1. Click the microphone button and speak a calculation.",
-                "2. Supported commands include addition, subtraction, multiplication, and division.",
+                "2. Supported commands include basic arithmetic operations\n  and scientific functions.",
                 "3. Example: 'What is 5 plus 3' or 'Calculate 12 divided by 4'."
             ]
             self.create_label("Instructions", instructions)
@@ -146,6 +155,18 @@ class CalculatorGUI:
                 self.create_label("Calculation History", self.history)
             else:
                 self.create_label("Calculation History", ["No history available."])
+                    
+        elif content_type == "scientific":
+            scientific_functions = [
+                "sin(x): Sine of x (in degrees)",
+                "cos(x): Cosine of x (in degrees)",
+                "tan(x): Tangent of x (in degrees)",
+                "log(x): Logarithm of x",
+                "sqrt(x): Square root of x",
+                "cbrt(x): Cube root of x ",
+            ]
+            self.create_label("Scientific Functions", scientific_functions)  # Move this line inside the block
+
 
     def create_label(self, title, items):
         """Create a label with a title and a list of items formatted nicely."""
