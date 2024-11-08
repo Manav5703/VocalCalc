@@ -13,8 +13,8 @@ VocalCalc is a Voice-Activated Calculator that allows users to perform basic ari
 ## Example Commands
 - "What is 5 plus 3?"
 - "Subtract 10 from 7."
-- "Multiply 3 by 4."
-- "Divide 30 by 5."
+- "What is cosine 45?"
+- "What is cube root of 81?"
 
 ## Technologies Used
 - **Python**: Main programming language.
@@ -36,7 +36,7 @@ Make sure you have the following installed:
    cd VocalCalc
 2. Install the required libraries:
    ```bash
-   pip install SpeechRecognition pyttsx3 tk
+   pip install SpeechRecognition pyttsx3 tk pillow
 3. Run the application:
    ```bash
    python voice_calculator.py
