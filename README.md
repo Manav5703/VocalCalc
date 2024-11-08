@@ -6,6 +6,9 @@ VocalCalc is a Voice-Activated Calculator that allows users to perform basic ari
 - Perform basic arithmetic using voice commands:
   - Addition, subtraction, multiplication, and division.
   - Handles error cases such as division by zero and invalid commands.
+- Performs scientific calculations:
+  - Trigonometric functions.
+  - Logarithmic, square root, cube root, and power.
 - Voice recognition using Python’s `SpeechRecognition` library.
 - Provides audio feedback using the `pyttsx3` library.
 - Simple graphical user interface built with `tkinter`.
