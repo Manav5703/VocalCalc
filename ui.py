@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+from tkinter import Scrollbar
 from PIL import Image, ImageTk
 
 class ToolTip:
@@ -48,10 +49,10 @@ class CalculatorGUI:
         top_frame.pack(fill="x", pady=5, anchor="w")
 
         # Load images for buttons
-        self.formulas_image = ImageTk.PhotoImage(Image.open("formula.png").resize((24, 24)))
-        self.instructions_image = ImageTk.PhotoImage(Image.open("info.png").resize((24, 24)))
-        self.history_image = ImageTk.PhotoImage(Image.open("history.png").resize((24, 24)))
-        self.scientific_image = ImageTk.PhotoImage(Image.open("science.png").resize((24, 24)))
+        self.formulas_image = ImageTk.PhotoImage(Image.open("assets/formula.png").resize((24, 24)))
+        self.instructions_image = ImageTk.PhotoImage(Image.open("assets/info.png").resize((24, 24)))
+        self.history_image = ImageTk.PhotoImage(Image.open("assets/history.png").resize((24, 24)))
+        self.scientific_image = ImageTk.PhotoImage(Image.open("assets/science.png").resize((24, 24)))
         
 
         # Buttons for Instructions, Formulas, and History with icons
@@ -94,7 +95,7 @@ class CalculatorGUI:
         self.result_label.pack(expand=True)  # Allow label to expand within canvas
 
         # Mic icon button
-        mic_image = Image.open("mic_icon.png")
+        mic_image = Image.open("assets/mic_icon.png")
         mic_image = mic_image.resize((50, 50), Image.ANTIALIAS)
         mic_photo = ImageTk.PhotoImage(mic_image)
 
@@ -152,10 +153,10 @@ class CalculatorGUI:
 
         elif content_type == "history":
             if self.history:
-                self.create_label("Calculation History", self.history)
+                self.create_scrollable_label("Calculation History", self.history)
             else:
                 self.create_label("Calculation History", ["No history available."])
-                    
+
         elif content_type == "scientific":
             scientific_functions = [
                 "sin(x): Sine of x (in degrees)",
@@ -165,7 +166,32 @@ class CalculatorGUI:
                 "sqrt(x): Square root of x",
                 "cbrt(x): Cube root of x ",
             ]
-            self.create_label("Scientific Functions", scientific_functions)  # Move this line inside the block
+            self.create_label("Scientific Functions", scientific_functions)
+
+    def create_scrollable_history(self, title, items):
+        title_label = ttk.Label(self.content_frame, text=title, font=("Helvetica", 18, "bold"), background="#4e4e4e", foreground="#ffffff")
+        title_label.pack(anchor="w", padx=10, pady=(10, 0))
+
+        canvas = tk.Canvas(self.content_frame, bg="#4e4e4e", highlightthickness=0)
+        scrollbar = ttk.Scrollbar(self.content_frame, orient="vertical", command=canvas.yview)
+        
+        scrollable_frame = tk.Frame(canvas, bg="#4e4e4e")
+
+        scrollable_frame.bind(
+            "<Configure>",
+            lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
+        )
+
+        canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
+        canvas.configure(yscrollcommand=scrollbar.set)
+
+        # Pack canvas and scrollbar into content_frame
+        canvas.pack(side="left", fill="both", expand=True)
+        scrollbar.pack(side="right", fill="y")
+
+        for item in items:
+            item_label = ttk.Label(scrollable_frame, text=f"• {item}", font=("Helvetica", 12), background="#4e4e4e", foreground="#ffffff")
+            item_label.pack(anchor="w", padx=20)
 
 
     def create_label(self, title, items):
@@ -188,11 +214,3 @@ def create_gui(calculate_callback):
     gui = CalculatorGUI(root, calculate_callback)
     return root, gui
 
-# Example usage
-if __name__ == "__main__":
-    def dummy_calculate():
-        # Placeholder for the calculation function
-        print("Calculating...")
-
-    app, gui = create_gui(dummy_calculate)
-    app.mainloop()

@@ -3,7 +3,6 @@ from voice_input import listen_for_command  # Custom voice input module
 from calculator_logic import parse_command  # Custom command parsing module
 from ui import create_gui  # UI creation module using Tkinter
 import pyttsx3
-import sys
 
 # Initialize the text-to-speech engine
 engine = pyttsx3.init()
@@ -39,7 +38,7 @@ def process_voice_command():
             if 'divide' in command or 'by' in command:
                 formatted_result = f"{result:.2f}"  # Show two decimal points for division
             else:
-                formatted_result = str(int(result))  # Show as integer for other operations
+                formatted_result = str(result)  # Show as integer for other operations
 
             # Speak and show result
             speak(f"The result is {formatted_result}")

@@ -32,7 +32,7 @@ def square_root(x):
 
 def cube_root(x):
     """Return the cube root of x."""
-    return round(x ** (1/3), 2)
+    return round(math.cbrt(x), 2)
 
 def exponentiation(x, y):
     """Return x raised to the power of y."""
@@ -42,20 +42,37 @@ def exponential(x):
     """Return the value of e raised to the power of x."""
     return round(math.exp(x), 2)
 
+# Trigonometric functions
+def sine(x):
+    """Return the sine of x (in degrees)."""
+    return round(math.sin(math.radians(x)), 2)
+
+def cosine(x):
+    """Return the cosine of x (in degrees)."""
+    return round(math.cos(math.radians(x)), 2)
+
+def tangent(x):
+    """Return the tangent of x (in degrees)."""
+    return round(math.tan(math.radians(x)), 2)
+
 def parse_command(command):
     """Parse the command and perform the corresponding arithmetic operation."""
     command = command.lower()
     tokens = command.split()
 
     # Filter out non-essential words
-    filtered_tokens = [token for token in tokens if token not in ["what", "is", "the", "and"]]
+    filtered_tokens = [token for token in tokens if token not in ["what", "is", "the", "and", "of"]]
 
     symbol_map = {
         "+": "plus",
         "-": "minus",
         "*": "times",
         "/": "by",
-        "^": "power"
+        "^": "power",
+        "sin": "sine",
+        "cos": "cosine",
+        "tan": "tangent",
+        "√": "square_root",
     }
 
     filtered_tokens = [symbol_map.get(token, token) for token in filtered_tokens]
@@ -108,19 +125,33 @@ def parse_command(command):
         history_entry = f"{int(base)} raised to the power of {int(exponent)} = {result}"
         return result, history_entry
 
-    # Look for square root commands
-    elif "square root" in filtered_tokens or "sqrt" in filtered_tokens:
-        x = float(filtered_tokens[filtered_tokens.index("square") + 2] if "square" in filtered_tokens else filtered_tokens[filtered_tokens.index("sqrt") + 1])
-        result = square_root(x)
-        history_entry = f"√({int(x)}) = {result}"
-        return result, history_entry
+    # Square root handling (either as "square root" or as "√")
+    if "square_root" in filtered_tokens or ("square" in filtered_tokens and "root" in filtered_tokens):
+        try:
+            # Capture phrases like "square root of 49" or "√49"
+            if "square_root" in filtered_tokens:
+                x = float(filtered_tokens[filtered_tokens.index("square_root") + 1])
+            else:
+                x = float(filtered_tokens[filtered_tokens.index("root") + 1])
+            result = square_root(x)
+            history_entry = f"√({int(x)}) = {result}"
+            return result, history_entry
+        except (ValueError, IndexError):
+            return "Error: Invalid input for square root", ""
 
-    # Look for cube root commands
-    elif "cube root" in filtered_tokens or "cbrt" in filtered_tokens:
-        x = float(filtered_tokens[filtered_tokens.index("cube") + 2] if "cube" in filtered_tokens else filtered_tokens[filtered_tokens.index("cbrt") + 1])
-        result = cube_root(x)
-        history_entry = f"∛({int(x)}) = {result}"
-        return result, history_entry
+    # Cube root handling (either as "cube root" or as "∛")
+    elif "cube root" in filtered_tokens or "∛" in filtered_tokens or ("cube" in filtered_tokens and "root" in filtered_tokens):
+        try:
+            # Capture phrases like "cube root of 27" or "∛27"
+            if "∛" in filtered_tokens:
+                x = float(filtered_tokens[filtered_tokens.index("∛") + 1])
+            else:
+                x = float(filtered_tokens[filtered_tokens.index("root") + 1])
+            result = cube_root(x)
+            history_entry = f"∛({int(x)}) = {result}"
+            return result, history_entry
+        except (ValueError, IndexError):
+            return "Error: Invalid input for cube root", ""
 
     # Look for logarithm commands
     elif "log" in filtered_tokens:
@@ -129,13 +160,24 @@ def parse_command(command):
         history_entry = f"log({int(x)}) = {result}"
         return result, history_entry
 
-    # Look for exponential commands
-    elif "exponential" in filtered_tokens:
-        x = float(filtered_tokens[filtered_tokens.index("exponential") + 1])
-        result = exponential(x)
-        history_entry = f"e^{int(x)} = {result}"
+    elif "sine" in filtered_tokens:
+        x = float(filtered_tokens[filtered_tokens.index("sine") + 1])
+        result = sine(x)
+        history_entry = f"sin({int(x)}) = {result}"
         return result, history_entry
 
+    elif "cosine" in filtered_tokens:
+        x = float(filtered_tokens[filtered_tokens.index("cosine") + 1])
+        result = cosine(x)
+        history_entry = f"cos({int(x)}) = {result}"
+        return result, history_entry
+
+    elif "tangent" in filtered_tokens:
+        x = float(filtered_tokens[filtered_tokens.index("tangent") + 1])
+        result = tangent(x)
+        history_entry = f"tan({int(x)}) = {result}"
+        return result, history_entry
+    
     else:
         return "Invalid command", ""  # Return an error message and an empty history entry
 
