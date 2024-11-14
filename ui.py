@@ -136,7 +136,7 @@ class CalculatorGUI:
             instructions = [
                 "1. Click the microphone button and speak a calculation.",
                 "2. Supported commands include basic arithmetic operations\n  and scientific functions.",
-                "3. Example: 'What is 5 plus 3' or 'Calculate 12 divided by 4'."
+                "3. Example: 'What is 5 plus 3','Calculate 12 divided by 4',\n 'What is sin of 45','What is cube root of 27'",
             ]
             self.create_label("Instructions", instructions)
 
