@@ -1,6 +1,5 @@
 import tkinter as tk
 from tkinter import ttk
-from tkinter import Scrollbar
 from PIL import Image, ImageTk
 
 class ToolTip:
@@ -153,10 +152,10 @@ class CalculatorGUI:
 
         elif content_type == "history":
             if self.history:
-                self.create_scrollable_label("Calculation History", self.history)
+                self.create_label("Calculation History", self.history)
             else:
                 self.create_label("Calculation History", ["No history available."])
-
+                    
         elif content_type == "scientific":
             scientific_functions = [
                 "sin(x): Sine of x (in degrees)",
@@ -166,32 +165,7 @@ class CalculatorGUI:
                 "sqrt(x): Square root of x",
                 "cbrt(x): Cube root of x ",
             ]
-            self.create_label("Scientific Functions", scientific_functions)
-
-    def create_scrollable_history(self, title, items):
-        title_label = ttk.Label(self.content_frame, text=title, font=("Helvetica", 18, "bold"), background="#4e4e4e", foreground="#ffffff")
-        title_label.pack(anchor="w", padx=10, pady=(10, 0))
-
-        canvas = tk.Canvas(self.content_frame, bg="#4e4e4e", highlightthickness=0)
-        scrollbar = ttk.Scrollbar(self.content_frame, orient="vertical", command=canvas.yview)
-        
-        scrollable_frame = tk.Frame(canvas, bg="#4e4e4e")
-
-        scrollable_frame.bind(
-            "<Configure>",
-            lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
-        )
-
-        canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
-        canvas.configure(yscrollcommand=scrollbar.set)
-
-        # Pack canvas and scrollbar into content_frame
-        canvas.pack(side="left", fill="both", expand=True)
-        scrollbar.pack(side="right", fill="y")
-
-        for item in items:
-            item_label = ttk.Label(scrollable_frame, text=f"• {item}", font=("Helvetica", 12), background="#4e4e4e", foreground="#ffffff")
-            item_label.pack(anchor="w", padx=20)
+            self.create_label("Scientific Functions", scientific_functions)  # Move this line inside the block
 
 
     def create_label(self, title, items):
