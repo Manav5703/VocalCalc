@@ -6,21 +6,24 @@ VocalCalc is a Voice-Activated Calculator that allows users to perform basic ari
 - Perform basic arithmetic using voice commands:
   - Addition, subtraction, multiplication, and division.
   - Handles error cases such as division by zero and invalid commands.
+- Performs scientific calculations:
+  - Trigonometric functions.
+  - Logarithmic, square root, cube root, and power.
 - Voice recognition using Python’s `SpeechRecognition` library.
 - Provides audio feedback using the `pyttsx3` library.
-- Simple graphical user interface built with `PyQt5`.
+- Simple graphical user interface built with `tkinter`.
 
 ## Example Commands
 - "What is 5 plus 3?"
 - "Subtract 10 from 7."
-- "Multiply 3 by 4."
-- "Divide 30 by 5."
+- "What is cosine 45?"
+- "What is cube root of 81?"
 
 ## Technologies Used
 - **Python**: Main programming language.
 - **SpeechRecognition**: For voice input processing.
 - **pyttsx3**: For text-to-speech feedback.
-- **PyQt5**: For the graphical user interface.
+- **tkinter**: For the graphical user interface.
 
 ## Installation
 
@@ -36,7 +39,7 @@ Make sure you have the following installed:
    cd VocalCalc
 2. Install the required libraries:
    ```bash
-   pip install SpeechRecognition pyttsx3
+   pip install SpeechRecognition pyttsx3 tk pillow
 3. Run the application:
    ```bash
    python voice_calculator.py
@@ -46,7 +49,7 @@ Make sure you have the following installed:
 - The calculator will display the result and provide audio feedback.
 
 ## Future Improvements
-- Extend support for more complex operations (e.g., exponentiation, square root).
+- Extend support for more complex operations.
 - Improve voice recognition accuracy.
 - Add support for multiple languages.
 
