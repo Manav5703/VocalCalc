@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VocalCalc - Voice-Activated Calculator</title>
+    <meta name="description" content="A modern voice-activated calculator that performs basic and scientific calculations through voice commands.">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/animations.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header Section -->
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-calculator"></i>
+                    <i class="fas fa-microphone logo-mic"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>VocalCalc</h1>
+                    <p>Voice-Activated Calculator</p>
+                </div>
+            </div>
+            
+            <nav class="main-nav">
+                <button id="theme-toggle" class="nav-button" aria-label="Toggle dark/light mode">
+                    <i class="fas fa-moon"></i>
+                    <span class="tooltip">Toggle Theme</span>
+                </button>
+                <button id="settings-btn" class="nav-button" aria-label="Settings">
+                    <i class="fas fa-cog"></i>
+                    <span class="tooltip">Settings</span>
+                </button>
+                <button id="help-btn" class="nav-button" aria-label="Help">
+                    <i class="fas fa-question-circle"></i>
+                    <span class="tooltip">Help</span>
+                </button>
+            </nav>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="calculator-container">
+                <!-- Tabs for different calculator modes -->
+                <div class="calculator-tabs">
+                    <button class="tab-button active" data-tab="standard">
+                        <i class="fas fa-calculator"></i>
+                        <span>Standard</span>
+                    </button>
+                    <button class="tab-button" data-tab="scientific">
+                        <i class="fas fa-flask"></i>
+                        <span>Scientific</span>
+                    </button>
+                    <button class="tab-button" data-tab="history">
+                        <i class="fas fa-history"></i>
+                        <span>History</span>
+                    </button>
+                </div>
+                
+                <!-- Calculator Display -->
+                <div class="calculator-display">
+                    <div class="display-container">
+                        <div id="command-display" class="command-display">Speak a command...</div>
+                        <div id="result-display" class="result-display">0</div>
+                    </div>
+                </div>
+                
+                <!-- Tab Content -->
+                <div class="tab-content">
+                    <!-- Standard Calculator Tab -->
+                    <div class="tab-pane active" id="standard-tab">
+                        <div class="calculator-info">
+                            <h2>Standard Calculator</h2>
+                            <p>Try saying:</p>
+                            <ul class="example-commands">
+                                <li>"What is 5 plus 3?"</li>
+                                <li>"Subtract 10 from 20"</li>
+                                <li>"Multiply 6 by 7"</li>
+                                <li>"Divide 100 by 4"</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Scientific Calculator Tab -->
+                    <div class="tab-pane" id="scientific-tab">
+                        <div class="calculator-info">
+                            <h2>Scientific Calculator</h2>
+                            <p>Try saying:</p>
+                            <ul class="example-commands">
+                                <li>"What is sine of 45?"</li>
+                                <li>"Cosine of 60"</li>
+                                <li>"Square root of 16"</li>
+                                <li>"Log of 100"</li>
+                                <li>"5 raised to the power of 3"</li>
+                                <li>"Cube root of 27"</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- History Tab -->
+                    <div class="tab-pane" id="history-tab">
+                        <div class="history-container">
+                            <h2>Calculation History</h2>
+                            <div id="history-list" class="history-list">
+                                <p class="empty-history">No calculations yet.</p>
+                            </div>
+                            <button id="clear-history" class="clear-history-btn">
+                                <i class="fas fa-trash"></i> Clear History
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Microphone Button -->
+            <div class="mic-container">
+                <button id="mic-btn" class="mic-button" aria-label="Activate microphone">
+                    <i class="fas fa-microphone"></i>
+                    <div class="mic-ripple"></div>
+                </button>
+                <p class="mic-label">Tap to speak</p>
+                
+                <!-- Voice Visualization -->
+                <div id="voice-visualization" class="voice-visualization">
+                    <div class="voice-bar"></div>
+                    <div class="voice-bar"></div>
+                    <div class="voice-bar"></div>
+                    <div class="voice-bar"></div>
+                    <div class="voice-bar"></div>
+                </div>
+            </div>
+        </main>
+        
+        <!-- Modals -->
+        <div id="settings-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Settings</h2>
+                    <button class="close-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="settings-group">
+                        <h3>Appearance</h3>
+                        <div class="setting-item">
+                            <label for="theme-select">Theme</label>
+                            <select id="theme-select">
+                                <option value="auto">Auto (System)</option>
+                                <option value="light">Light</option>
+                                <option value="dark">Dark</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-group">
+                        <h3>Voice Recognition</h3>
+                        <div class="setting-item">
+                            <label for="language-select">Language</label>
+                            <select id="language-select">
+                                <option value="en-US">English (US)</option>
+                                <option value="en-GB">English (UK)</option>
+                                <option value="es-ES">Spanish</option>
+                                <option value="fr-FR">French</option>
+                                <option value="de-DE">German</option>
+                            </select>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <label for="confidence-threshold">Recognition Confidence Threshold</label>
+                            <input type="range" id="confidence-threshold" min="0" max="1" step="0.1" value="0.5">
+                            <span id="confidence-value">0.5</span>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-group">
+                        <h3>Speech Synthesis</h3>
+                        <div class="setting-item">
+                            <label for="speech-rate">Speech Rate</label>
+                            <input type="range" id="speech-rate" min="0.5" max="2" step="0.1" value="1">
+                            <span id="rate-value">1.0</span>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <label for="speech-pitch">Speech Pitch</label>
+                            <input type="range" id="speech-pitch" min="0.5" max="2" step="0.1" value="1">
+                            <span id="pitch-value">1.0</span>
+                        </div>
+                        
+                        <div class="setting-item">
+                            <label for="speech-volume">Speech Volume</label>
+                            <input type="range" id="speech-volume" min="0" max="1" step="0.1" value="1">
+                            <span id="volume-value">1.0</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="reset-settings" class="secondary-button">Reset to Default</button>
+                    <button id="save-settings" class="primary-button">Save Settings</button>
+                </div>
+            </div>
+        </div>
+        
+        <div id="help-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Help & Instructions</h2>
+                    <button class="close-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="help-section">
+                        <h3>Getting Started</h3>
+                        <ol>
+                            <li>Click the microphone button at the bottom of the screen.</li>
+                            <li>Speak your calculation command clearly.</li>
+                            <li>Wait for the result to appear on the screen.</li>
+                            <li>The result will also be spoken back to you.</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="help-section">
+                        <h3>Voice Commands</h3>
+                        <h4>Basic Operations</h4>
+                        <ul>
+                            <li>"What is 5 plus 3"</li>
+                            <li>"Subtract 10 from 20"</li>
+                            <li>"Multiply 6 by 7"</li>
+                            <li>"Divide 100 by 4"</li>
+                        </ul>
+                        
+                        <h4>Scientific Operations</h4>
+                        <ul>
+                            <li>"What is sine of 45"</li>
+                            <li>"Cosine of 60"</li>
+                            <li>"Square root of 16"</li>
+                            <li>"Log of 100"</li>
+                            <li>"5 raised to the power of 3"</li>
+                            <li>"Cube root of 27"</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="help-section">
+                        <h3>Keyboard Shortcuts</h3>
+                        <table class="shortcuts-table">
+                            <tr>
+                                <td><kbd>M</kbd></td>
+                                <td>Activate microphone</td>
+                            </tr>
+                            <tr>
+                                <td><kbd>T</kbd></td>
+                                <td>Toggle theme</td>
+                            </tr>
+                            <tr>
+                                <td><kbd>H</kbd></td>
+                                <td>Show history</td>
+                            </tr>
+                            <tr>
+                                <td><kbd>Esc</kbd></td>
+                                <td>Close modals</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="help-section">
+                        <h3>Troubleshooting</h3>
+                        <h4>Microphone not working?</h4>
+                        <ul>
+                            <li>Make sure your browser has permission to access your microphone.</li>
+                            <li>Check that your microphone is properly connected and not muted.</li>
+                            <li>Try using a different browser (Chrome or Edge recommended).</li>
+                        </ul>
+                        
+                        <h4>Voice recognition issues?</h4>
+                        <ul>
+                            <li>Speak clearly and at a moderate pace.</li>
+                            <li>Reduce background noise if possible.</li>
+                            <li>Try adjusting the confidence threshold in Settings.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="primary-button close-modal">Got it!</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2025 VocalCalc | <a href="https://github.com/Manav5703/VocalCalc" target="_blank" rel="noopener noreferrer">GitHub</a></p>
+            <p class="version">Version 1.0.0</p>
+        </footer>
+    </div>
+    
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="toast-container"></div>
+    
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/settings.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/ui.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/speech.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/calculator.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

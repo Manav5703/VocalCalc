@@ -1,0 +1,264 @@
+/* 
+ * VocalCalc - Responsive Stylesheet
+ * Contains all media queries for responsive design
+ */
+
+/* Extra small devices (phones, 576px and down) */
+@media (max-width: 576px) {
+    :root {
+        --font-size-xs: 0.7rem;
+        --font-size-sm: 0.8rem;
+        --font-size-md: 0.9rem;
+        --font-size-lg: 1.1rem;
+        --font-size-xl: 1.3rem;
+        --font-size-xxl: 1.7rem;
+        --font-size-xxxl: 2.5rem;
+    }
+    
+    .app-container {
+        padding: var(--spacing-sm);
+    }
+    
+    .header {
+        flex-direction: column;
+        gap: var(--spacing-md);
+        align-items: center;
+        text-align: center;
+    }
+    
+    .logo {
+        margin-bottom: var(--spacing-sm);
+    }
+    
+    .calculator-container {
+        max-width: 100%;
+    }
+    
+    .result-display {
+        font-size: var(--font-size-xl);
+    }
+    
+    .tab-button span {
+        display: none;
+    }
+    
+    .tab-button i {
+        font-size: var(--font-size-lg);
+    }
+    
+    .modal-content {
+        max-width: 100%;
+        max-height: 80vh;
+    }
+    
+    .setting-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-xs);
+    }
+    
+    .setting-item label {
+        margin-bottom: var(--spacing-xs);
+    }
+    
+    .setting-item select,
+    .setting-item input[type="range"] {
+        width: 100%;
+    }
+    
+    .modal-footer {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+    
+    .modal-footer button {
+        width: 100%;
+    }
+    
+    .shortcuts-table td:first-child {
+        width: 60px;
+    }
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+    .app-container {
+        padding: var(--spacing-md);
+    }
+    
+    .calculator-container {
+        max-width: 500px;
+    }
+    
+    .result-display {
+        font-size: var(--font-size-xl);
+    }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .app-container {
+        padding: var(--spacing-lg);
+    }
+    
+    .calculator-container {
+        max-width: 600px;
+    }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+    .app-container {
+        padding: var(--spacing-xl);
+    }
+    
+    .calculator-container {
+        max-width: 700px;
+    }
+    
+    .result-display {
+        font-size: var(--font-size-xxl);
+    }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+    .app-container {
+        padding: var(--spacing-xxl);
+    }
+    
+    .calculator-container {
+        max-width: 800px;
+    }
+}
+
+/* Landscape orientation for mobile devices */
+@media (max-height: 500px) and (orientation: landscape) {
+    .app-container {
+        padding: var(--spacing-xs);
+    }
+    
+    .header {
+        margin-bottom: var(--spacing-sm);
+    }
+    
+    .logo-text h1 {
+        font-size: var(--font-size-lg);
+    }
+    
+    .logo-text p {
+        display: none;
+    }
+    
+    .main-content {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: var(--spacing-md);
+    }
+    
+    .calculator-container {
+        flex: 1;
+        max-width: 70%;
+    }
+    
+    .mic-container {
+        margin-top: var(--spacing-xl);
+    }
+    
+    .mic-button {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .footer {
+        margin-top: var(--spacing-sm);
+        padding: var(--spacing-sm) 0;
+    }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+    :root {
+        --primary-color: #0000ff;
+        --primary-light: #0000cc;
+        --primary-dark: #000099;
+        --secondary-color: #00aaff;
+        --accent-color: #ff0000;
+        
+        --text-primary: #000000;
+        --text-secondary: #333333;
+        --text-tertiary: #666666;
+        
+        --bg-primary: #ffffff;
+        --bg-secondary: #f0f0f0;
+        --bg-tertiary: #dddddd;
+        
+        --card-bg: #ffffff;
+        --card-shadow: 0 0 0 2px #000000;
+        
+        --success-color: #008800;
+        --warning-color: #cc6600;
+        --error-color: #cc0000;
+        --info-color: #0066cc;
+    }
+    
+    .dark-theme {
+        --primary-color: #00aaff;
+        --primary-light: #00ccff;
+        --primary-dark: #0088cc;
+        --secondary-color: #00ffff;
+        --accent-color: #ff6666;
+        
+        --text-primary: #ffffff;
+        --text-secondary: #dddddd;
+        --text-tertiary: #bbbbbb;
+        
+        --bg-primary: #000000;
+        --bg-secondary: #222222;
+        --bg-tertiary: #444444;
+        
+        --card-bg: #000000;
+        --card-shadow: 0 0 0 2px #ffffff;
+        
+        --success-color: #00cc00;
+        --warning-color: #ffaa00;
+        --error-color: #ff0000;
+        --info-color: #00aaff;
+    }
+    
+    /* Increase contrast for interactive elements */
+    button, a, input, select {
+        outline: 2px solid transparent;
+    }
+    
+    button:focus, a:focus, input:focus, select:focus {
+        outline: 2px solid var(--primary-color);
+    }
+    
+    .tab-button.active {
+        border-bottom: 3px solid var(--primary-color);
+    }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.001s !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001s !important;
+        scroll-behavior: auto !important;
+    }
+    
+    .mic-button.listening {
+        background-color: var(--accent-color);
+    }
+    
+    .voice-visualization {
+        display: none !important;
+    }
+    
+    .mic-ripple {
+        display: none;
+    }
+}

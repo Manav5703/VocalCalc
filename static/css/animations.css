@@ -1,0 +1,277 @@
+/* 
+ * VocalCalc - Animations Stylesheet
+ * Contains all animations used in the application
+ */
+
+/* Pulse animation for the microphone button */
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(247, 37, 133, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 15px rgba(247, 37, 133, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(247, 37, 133, 0);
+    }
+}
+
+/* Ripple animation for the microphone button */
+@keyframes ripple {
+    0% {
+        transform: scale(0.8);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
+
+/* Voice visualization animation */
+@keyframes voiceBar {
+    0%, 100% {
+        height: 5px;
+    }
+    50% {
+        height: 30px;
+    }
+}
+
+/* Modal fade in animation */
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Toast notification fade in animation */
+@keyframes toastFadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Toast notification fade out animation */
+@keyframes toastFadeOut {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+}
+
+/* Shake animation for error feedback */
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    10%, 30%, 50%, 70%, 90% {
+        transform: translateX(-5px);
+    }
+    20%, 40%, 60%, 80% {
+        transform: translateX(5px);
+    }
+}
+
+/* Bounce animation for success feedback */
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
+/* Fade in animation for elements */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Fade out animation for elements */
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+/* Slide in from right animation */
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+/* Slide out to right animation */
+@keyframes slideOutRight {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(100%);
+    }
+}
+
+/* Slide in from left animation */
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+/* Slide out to left animation */
+@keyframes slideOutLeft {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-100%);
+    }
+}
+
+/* Scale in animation */
+@keyframes scaleIn {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Scale out animation */
+@keyframes scaleOut {
+    from {
+        transform: scale(1);
+        opacity: 1;
+    }
+    to {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+}
+
+/* Rotate animation */
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Typing cursor animation */
+@keyframes blink {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+}
+
+/* Apply animations to voice visualization bars */
+.voice-visualization.active .voice-bar:nth-child(1) {
+    animation: voiceBar 0.5s infinite 0.1s;
+}
+
+.voice-visualization.active .voice-bar:nth-child(2) {
+    animation: voiceBar 0.5s infinite 0.2s;
+}
+
+.voice-visualization.active .voice-bar:nth-child(3) {
+    animation: voiceBar 0.5s infinite 0.3s;
+}
+
+.voice-visualization.active .voice-bar:nth-child(4) {
+    animation: voiceBar 0.5s infinite 0.4s;
+}
+
+.voice-visualization.active .voice-bar:nth-child(5) {
+    animation: voiceBar 0.5s infinite 0.5s;
+}
+
+/* Apply shake animation to elements with .shake class */
+.shake {
+    animation: shake 0.5s;
+}
+
+/* Apply bounce animation to elements with .bounce class */
+.bounce {
+    animation: bounce 0.5s;
+}
+
+/* Apply fade in animation to elements with .fade-in class */
+.fade-in {
+    animation: fadeIn 0.3s forwards;
+}
+
+/* Apply fade out animation to elements with .fade-out class */
+.fade-out {
+    animation: fadeOut 0.3s forwards;
+}
+
+/* Apply slide in from right animation to elements with .slide-in-right class */
+.slide-in-right {
+    animation: slideInRight 0.3s forwards;
+}
+
+/* Apply slide out to right animation to elements with .slide-out-right class */
+.slide-out-right {
+    animation: slideOutRight 0.3s forwards;
+}
+
+/* Apply scale in animation to elements with .scale-in class */
+.scale-in {
+    animation: scaleIn 0.3s forwards;
+}
+
+/* Apply scale out animation to elements with .scale-out class */
+.scale-out {
+    animation: scaleOut 0.3s forwards;
+}
+
+/* Apply rotate animation to elements with .rotate class */
+.rotate {
+    animation: rotate 1s linear infinite;
+}
+
+/* Apply typing cursor animation to elements with .typing-cursor class */
+.typing-cursor::after {
+    content: '|';
+    animation: blink 1s infinite;
+}
