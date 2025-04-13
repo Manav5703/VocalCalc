@@ -73,14 +73,65 @@ Make sure you have the following installed:
 ## Deployment
 The application can be deployed to various cloud platforms:
 
+### Render Deployment (Recommended)
+1. Create an account on [Render](https://render.com/)
+2. Click "New" and select "Web Service"
+3. Connect your GitHub repository
+4. Configure the service:
+   - Name: vocalcalc
+   - Environment: Python
+   - Build Command: `pip install -r requirements.txt`
+   - Start Command: `gunicorn app:app`
+5. Click "Create Web Service"
+
 ### Heroku Deployment
-```bash
-heroku create vocalcalc
-git push heroku main
-```
+1. Install the Heroku CLI and log in:
+   ```bash
+   npm install -g heroku
+   heroku login
+   ```
+2. Create a new Heroku app:
+   ```bash
+   heroku create vocalcalc
+   ```
+3. Push your code to Heroku:
+   ```bash
+   git push heroku main
+   ```
+4. Open the deployed app:
+   ```bash
+   heroku open
+   ```
 
 ### Docker Deployment
-A Dockerfile is provided for containerized deployment.
+A Dockerfile is provided for containerized deployment:
+
+1. Build the Docker image:
+   ```bash
+   docker build -t vocalcalc .
+   ```
+2. Run the container:
+   ```bash
+   docker run -p 5000:5000 vocalcalc
+   ```
+
+### AWS Elastic Beanstalk Deployment
+1. Install the EB CLI:
+   ```bash
+   pip install awsebcli
+   ```
+2. Initialize your EB application:
+   ```bash
+   eb init -p python-3.11 vocalcalc
+   ```
+3. Create an environment and deploy:
+   ```bash
+   eb create vocalcalc-env
+   ```
+4. Open the deployed application:
+   ```bash
+   eb open
+   ```
 
 ## Future Improvements
 - Add support for multiple languages
@@ -91,7 +142,7 @@ A Dockerfile is provided for containerized deployment.
 - Implement equation solving capabilities
 
 ## Contributors
-- Manav Patel 
+- Manav Patel
 - Mohammad Shajjad Hossen
 
 ## License
