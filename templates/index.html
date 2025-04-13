@@ -5,18 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VocalCalc - Voice-Activated Calculator</title>
     <meta name="description" content="A modern voice-activated calculator that performs basic and scientific calculations through voice commands.">
-    
+
     <!-- Favicon -->
-    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
-    
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.svg') }}" type="image/svg+xml">
+    <link rel="alternate icon" href="{{ url_for('static', filename='images/favicon.png') }}" type="image/png">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/favicon.png') }}">
+    <meta name="theme-color" content="#4361ee">
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
-    
+
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <!-- Stylesheets -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
@@ -37,7 +40,7 @@
                     <p>Voice-Activated Calculator</p>
                 </div>
             </div>
-            
+
             <nav class="main-nav">
                 <button id="theme-toggle" class="nav-button" aria-label="Toggle dark/light mode">
                     <i class="fas fa-moon"></i>
@@ -72,7 +75,7 @@
                         <span>History</span>
                     </button>
                 </div>
-                
+
                 <!-- Calculator Display -->
                 <div class="calculator-display">
                     <div class="display-container">
@@ -80,7 +83,7 @@
                         <div id="result-display" class="result-display">0</div>
                     </div>
                 </div>
-                
+
                 <!-- Tab Content -->
                 <div class="tab-content">
                     <!-- Standard Calculator Tab -->
@@ -96,7 +99,7 @@
                             </ul>
                         </div>
                     </div>
-                    
+
                     <!-- Scientific Calculator Tab -->
                     <div class="tab-pane" id="scientific-tab">
                         <div class="calculator-info">
@@ -112,7 +115,7 @@
                             </ul>
                         </div>
                     </div>
-                    
+
                     <!-- History Tab -->
                     <div class="tab-pane" id="history-tab">
                         <div class="history-container">
@@ -127,7 +130,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Microphone Button -->
             <div class="mic-container">
                 <button id="mic-btn" class="mic-button" aria-label="Activate microphone">
@@ -135,7 +138,7 @@
                     <div class="mic-ripple"></div>
                 </button>
                 <p class="mic-label">Tap to speak</p>
-                
+
                 <!-- Voice Visualization -->
                 <div id="voice-visualization" class="voice-visualization">
                     <div class="voice-bar"></div>
@@ -146,7 +149,7 @@
                 </div>
             </div>
         </main>
-        
+
         <!-- Modals -->
         <div id="settings-modal" class="modal">
             <div class="modal-content">
@@ -166,7 +169,7 @@
                             </select>
                         </div>
                     </div>
-                    
+
                     <div class="settings-group">
                         <h3>Voice Recognition</h3>
                         <div class="setting-item">
@@ -179,14 +182,14 @@
                                 <option value="de-DE">German</option>
                             </select>
                         </div>
-                        
+
                         <div class="setting-item">
                             <label for="confidence-threshold">Recognition Confidence Threshold</label>
                             <input type="range" id="confidence-threshold" min="0" max="1" step="0.1" value="0.5">
                             <span id="confidence-value">0.5</span>
                         </div>
                     </div>
-                    
+
                     <div class="settings-group">
                         <h3>Speech Synthesis</h3>
                         <div class="setting-item">
@@ -194,13 +197,13 @@
                             <input type="range" id="speech-rate" min="0.5" max="2" step="0.1" value="1">
                             <span id="rate-value">1.0</span>
                         </div>
-                        
+
                         <div class="setting-item">
                             <label for="speech-pitch">Speech Pitch</label>
                             <input type="range" id="speech-pitch" min="0.5" max="2" step="0.1" value="1">
                             <span id="pitch-value">1.0</span>
                         </div>
-                        
+
                         <div class="setting-item">
                             <label for="speech-volume">Speech Volume</label>
                             <input type="range" id="speech-volume" min="0" max="1" step="0.1" value="1">
@@ -214,7 +217,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div id="help-modal" class="modal">
             <div class="modal-content">
                 <div class="modal-header">
@@ -231,7 +234,7 @@
                             <li>The result will also be spoken back to you.</li>
                         </ol>
                     </div>
-                    
+
                     <div class="help-section">
                         <h3>Voice Commands</h3>
                         <h4>Basic Operations</h4>
@@ -241,7 +244,7 @@
                             <li>"Multiply 6 by 7"</li>
                             <li>"Divide 100 by 4"</li>
                         </ul>
-                        
+
                         <h4>Scientific Operations</h4>
                         <ul>
                             <li>"What is sine of 45"</li>
@@ -252,7 +255,7 @@
                             <li>"Cube root of 27"</li>
                         </ul>
                     </div>
-                    
+
                     <div class="help-section">
                         <h3>Keyboard Shortcuts</h3>
                         <table class="shortcuts-table">
@@ -274,7 +277,7 @@
                             </tr>
                         </table>
                     </div>
-                    
+
                     <div class="help-section">
                         <h3>Troubleshooting</h3>
                         <h4>Microphone not working?</h4>
@@ -283,7 +286,7 @@
                             <li>Check that your microphone is properly connected and not muted.</li>
                             <li>Try using a different browser (Chrome or Edge recommended).</li>
                         </ul>
-                        
+
                         <h4>Voice recognition issues?</h4>
                         <ul>
                             <li>Speak clearly and at a moderate pace.</li>
@@ -297,17 +300,17 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Footer -->
         <footer class="footer">
             <p>&copy; 2025 VocalCalc | <a href="https://github.com/Manav5703/VocalCalc" target="_blank" rel="noopener noreferrer">GitHub</a></p>
             <p class="version">Version 1.0.0</p>
         </footer>
     </div>
-    
+
     <!-- Toast Notifications -->
     <div id="toast-container" class="toast-container"></div>
-    
+
     <!-- Scripts -->
     <script src="{{ url_for('static', filename='js/settings.js') }}"></script>
     <script src="{{ url_for('static', filename='js/ui.js') }}"></script>

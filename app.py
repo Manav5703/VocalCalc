@@ -24,7 +24,12 @@ command_parser = CommandParser()
 
 @app.route('/')
 def index():
-    """Render the main application page."""
+    """Render the landing page."""
+    return render_template('landing.html')
+
+@app.route('/calculator')
+def calculator():
+    """Render the calculator application page."""
     return render_template('index.html')
 
 @app.route('/api/calculate', methods=['POST'])

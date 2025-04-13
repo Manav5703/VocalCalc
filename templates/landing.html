@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to VocalCalc - Voice-Activated Calculator</title>
+    <meta name="description" content="A modern voice-activated calculator that performs basic and scientific calculations through voice commands.">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.svg') }}" type="image/svg+xml">
+    <link rel="alternate icon" href="{{ url_for('static', filename='images/favicon.png') }}" type="image/png">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/favicon.png') }}">
+    <meta name="theme-color" content="#4361ee">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/landing.css') }}">
+</head>
+<body>
+    <div class="landing-container">
+        <div class="intro-section">
+            <div class="logo-container">
+                <div class="logo-icon">
+                    <i class="fas fa-calculator"></i>
+                    <i class="fas fa-microphone logo-mic"></i>
+                </div>
+                <h1 class="logo-text">VocalCalc</h1>
+            </div>
+            
+            <h2 class="tagline">Calculate with your voice</h2>
+            
+            <p class="description">
+                VocalCalc is a modern voice-activated calculator that lets you perform calculations 
+                simply by speaking. No more typing complex equations - just say what you want to calculate!
+            </p>
+            
+            <div class="features">
+                <div class="feature">
+                    <i class="fas fa-microphone-alt"></i>
+                    <h3>Voice Activated</h3>
+                    <p>Perform calculations using natural voice commands</p>
+                </div>
+                
+                <div class="feature">
+                    <i class="fas fa-flask"></i>
+                    <h3>Scientific Functions</h3>
+                    <p>Access advanced math functions with ease</p>
+                </div>
+                
+                <div class="feature">
+                    <i class="fas fa-history"></i>
+                    <h3>Calculation History</h3>
+                    <p>Keep track of your previous calculations</p>
+                </div>
+            </div>
+            
+            <a href="{{ url_for('calculator') }}" class="cta-button">
+                <span>Start Calculating</span>
+                <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+        
+        <div class="demo-section">
+            <div class="demo-container">
+                <div class="demo-header">
+                    <div class="demo-dots">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <div class="demo-title">VocalCalc Demo</div>
+                </div>
+                
+                <div class="demo-content">
+                    <div class="demo-display">
+                        <div class="demo-command" id="demo-command">Say: "What is 23 plus 45?"</div>
+                        <div class="demo-result" id="demo-result">68</div>
+                    </div>
+                    
+                    <div class="demo-mic">
+                        <div class="demo-mic-button">
+                            <i class="fas fa-microphone"></i>
+                        </div>
+                        <div class="demo-waves">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                    
+                    <div class="demo-examples">
+                        <p>Try saying:</p>
+                        <ul>
+                            <li>"What is 5 plus 3?"</li>
+                            <li>"Calculate sine of 45"</li>
+                            <li>"Square root of 16"</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer class="landing-footer">
+        <p>&copy; 2025 VocalCalc | <a href="https://github.com/Manav5703/VocalCalc" target="_blank" rel="noopener noreferrer">GitHub</a></p>
+    </footer>
+    
+    <script>
+        // Simple demo animation
+        document.addEventListener('DOMContentLoaded', () => {
+            const demoCommands = [
+                { command: "Say: \"What is 23 plus 45?\"", result: "68" },
+                { command: "Say: \"Square root of 16\"", result: "4" },
+                { command: "Say: \"Sine of 30 degrees\"", result: "0.5" },
+                { command: "Say: \"7 times 8\"", result: "56" },
+                { command: "Say: \"Log of 100\"", result: "2" }
+            ];
+            
+            const demoCommandEl = document.getElementById('demo-command');
+            const demoResultEl = document.getElementById('demo-result');
+            const demoMicButton = document.querySelector('.demo-mic-button');
+            const demoWaves = document.querySelector('.demo-waves');
+            
+            let currentIndex = 0;
+            
+            // Function to update the demo display
+            function updateDemo() {
+                // Reset animation classes
+                demoCommandEl.classList.remove('typing');
+                demoResultEl.classList.remove('fade-in');
+                demoMicButton.classList.remove('active');
+                demoWaves.classList.remove('active');
+                
+                // Force reflow to restart animations
+                void demoCommandEl.offsetWidth;
+                void demoResultEl.offsetWidth;
+                
+                // Update content
+                const demo = demoCommands[currentIndex];
+                demoCommandEl.textContent = demo.command;
+                demoCommandEl.classList.add('typing');
+                
+                // Simulate microphone activation after a delay
+                setTimeout(() => {
+                    demoMicButton.classList.add('active');
+                    demoWaves.classList.add('active');
+                    
+                    // Show result after a delay
+                    setTimeout(() => {
+                        demoResultEl.textContent = demo.result;
+                        demoResultEl.classList.add('fade-in');
+                        
+                        // Deactivate microphone after showing result
+                        setTimeout(() => {
+                            demoMicButton.classList.remove('active');
+                            demoWaves.classList.remove('active');
+                        }, 1000);
+                        
+                        // Move to next demo item
+                        currentIndex = (currentIndex + 1) % demoCommands.length;
+                    }, 2000);
+                }, 1500);
+            }
+            
+            // Start the demo
+            updateDemo();
+            
+            // Update demo every 6 seconds
+            setInterval(updateDemo, 6000);
+        });
+    </script>
+</body>
+</html>
