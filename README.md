@@ -2,6 +2,12 @@
 
 VocalCalc is a Voice-Activated Calculator web application that allows users to perform basic arithmetic and scientific operations using voice commands. This application processes voice input to perform calculations while providing both visual and audible feedback.
 
+## Live Demo
+
+Try VocalCalc now: [https://vocalcalc.onrender.com](https://vocalcalc.onrender.com)
+
+The application is deployed on Render and is ready to use. Simply click the link above to access the live version.
+
 ## Features
 - **Voice-Activated Calculations**: Perform calculations using natural language voice commands
 - **Basic Arithmetic Operations**:
@@ -70,10 +76,21 @@ Make sure you have the following installed:
 3. View the result on screen and hear the spoken response
 4. Access history, formulas, and scientific functions using the navigation buttons
 
-## Deployment
-The application can be deployed to various cloud platforms:
+## Deployment Status
 
-### Render Deployment (Recommended)
+### Current Deployment
+VocalCalc is currently deployed on Render and accessible at:
+- **URL**: [https://vocalcalc.onrender.com](https://vocalcalc.onrender.com)
+- **Platform**: Render
+- **Deployment Type**: Web Service
+- **Branch**: main
+
+The application is automatically updated whenever changes are pushed to the main branch of the GitHub repository.
+
+### Deployment Instructions
+If you want to deploy your own instance of VocalCalc, you can use one of the following methods:
+
+#### Render Deployment (Recommended)
 1. Create an account on [Render](https://render.com/)
 2. Click "New" and select "Web Service"
 3. Connect your GitHub repository
@@ -84,7 +101,7 @@ The application can be deployed to various cloud platforms:
    - Start Command: `gunicorn app:app`
 5. Click "Create Web Service"
 
-### Heroku Deployment
+#### Heroku Deployment
 1. Install the Heroku CLI and log in:
    ```bash
    npm install -g heroku
@@ -103,7 +120,7 @@ The application can be deployed to various cloud platforms:
    heroku open
    ```
 
-### Docker Deployment
+#### Docker Deployment
 A Dockerfile is provided for containerized deployment:
 
 1. Build the Docker image:
@@ -115,7 +132,7 @@ A Dockerfile is provided for containerized deployment:
    docker run -p 5000:5000 vocalcalc
    ```
 
-### AWS Elastic Beanstalk Deployment
+#### AWS Elastic Beanstalk Deployment
 1. Install the EB CLI:
    ```bash
    pip install awsebcli
@@ -132,6 +149,13 @@ A Dockerfile is provided for containerized deployment:
    ```bash
    eb open
    ```
+
+## Recent Improvements
+- Added a professional landing page with interactive demo
+- Implemented favicon for better browser identification
+- Enhanced error handling for network and API issues
+- Improved command parsing for better voice recognition
+- Added deployment configuration for various platforms
 
 ## Future Improvements
 - Add support for multiple languages
